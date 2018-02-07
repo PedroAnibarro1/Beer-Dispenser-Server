@@ -1,5 +1,6 @@
 import Vapor
 import MySQLProvider
+import SwiftyJSON
 
 extension Droplet {
     func setupRoutes() throws {
@@ -31,6 +32,21 @@ extension Droplet {
             try pello.save()
             
             return "\(pello.rfid)"
+        }
+
+        get("credit") { req in
+            if let data: String = try req.query?.get("data") {
+                        
+                
+                guard let rfid: String = json["rfid"].int else {
+                    throw Abort(.badRequest)
+                }
+                print(rfid)
+            } else {
+                print(":(")
+            }
+                        
+            return "Hello"
         }
         
         // response to requests to /info domain
