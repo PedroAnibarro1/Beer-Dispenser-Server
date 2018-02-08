@@ -1,6 +1,5 @@
 import Vapor
 import MySQLProvider
-import SwiftyJSON
 
 extension Droplet {
     func setupRoutes() throws {
@@ -35,17 +34,21 @@ extension Droplet {
         }
 
         get("credit") { req in
-            if let data: String = try req.query?.get("data") {
-                        
+            if let jsonString: String = try req.query?.get("data"),
+                let dataFromString = jsonString.data(using: .utf8, allowLossyConversion: false) {
                 
-                guard let rfid: String = json["rfid"].int else {
+                let json = try JSON(bytes: dataFromString)
+                
+                guard let rfid = json["rfid"]?.int else {
                     throw Abort(.badRequest)
                 }
-                print(rfid)
+
+                print("RFID: \(rfid)")
+
             } else {
-                print(":(")
+                throw Abort(.badRequest)
             }
-                        
+            
             return "Hello"
         }
         
