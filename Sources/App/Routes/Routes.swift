@@ -3,15 +3,15 @@ import MySQLProvider
 
 extension Droplet {
     func setupRoutes() throws {
-        get("hello") { req in
-            var json = JSON()
-            try json.set("hello", "world")
-            return json
-        }
-        
-        get("plaintext") { req in
+        get("") { req in
             return "Hello, world!"
         }
+
+        get("hello") { req in
+            var json = JSON()
+            try json.set("hello", "sir")
+            return json
+        }                
         
         // Database test
         get("database") { req in
